@@ -5,10 +5,11 @@ import dropdownIcon from "../assets/icons/dropdown-arrow.png"; // Local image
 interface MultiselectDropdownProps {
     options: string[];
     label: string;
+    selectedOptions: string[];
+    setSelectedOptions: (value: string[]) => void;
 }
 
-function MultiselectDropdown({ options, label }: MultiselectDropdownProps) {
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+function MultiselectDropdown({ options, label, selectedOptions, setSelectedOptions }: MultiselectDropdownProps) {
     const [isOpen, setIsOpen] = useState(false); // Toggle dropdown visibility
 
     const handleSelect = (option: string) => {
@@ -23,7 +24,7 @@ function MultiselectDropdown({ options, label }: MultiselectDropdownProps) {
         <div className="dropdown-container">
 
             <div className="dropdown-input-container">
-            <label>{label}</label>
+            <label className={"label-input"}>{label}</label>
                 {/* Disabled input to show selected options */}
                 <input
                     type="text"
