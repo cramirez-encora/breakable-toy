@@ -5,10 +5,30 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #FFFDF5;
+  color: #364C84;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.container{
+  display: flex;
+  justify-self: center;
+  flex-direction: column;
+  align-items: start;
+
+  width: 90%;
+  height: fit-content;
+  padding: 20px;
+  background-color: #95B1EE;
+  color: #FFFDF5;
+  border: #364C84 1px solid;
+  border-radius: 15px;
+}
+.label-input{
+  width: 80px;
+  text-align: end;
+}
+
