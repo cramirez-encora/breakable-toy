@@ -27,3 +27,8 @@
   border: #364C84 1px solid;
   border-radius: 15px;
 }
+.label-input{
+  width: 80px;
+  text-align: end;
+}
+
