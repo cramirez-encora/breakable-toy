@@ -2,6 +2,7 @@ import MultiselectDropdown from "./MultiselectDropdown.tsx";
 import TextInput from "./TextInput.tsx";
 import Button from "./Button.tsx";
 import {useState} from "react";
+import {useSearchStore} from "../store/useSearchStore.ts";
 
 function SearchBar(){
     const categoryOptions = ['Pets', 'Home', 'Food', 'Cleaning'];
@@ -13,10 +14,13 @@ function SearchBar(){
     const [stockSelectedOptions, stockSetSelectedOptions] = useState<string[]>([]);
 
     const nameLabel = 'Name: ';
-    const[search, setSearch] = useState("");
+    const[searchName, setSearch] = useState("");
+
+    const setFilters = useSearchStore((state) => state.setFilters);
 
     const handleSearch = () => {
-        console.log({search, categorySelectedOptions, stockSelectedOptions});
+        console.log({searchName, categorySelectedOptions, stockSelectedOptions});
+        setFilters({searchTerm: searchName,categories: categorySelectedOptions,stock: stockSelectedOptions})
     };
 
     return(
@@ -24,7 +28,7 @@ function SearchBar(){
             <div className={"container"}>
                 <h2>Search Bar</h2>
                 <div className={"container-searchControls"}>
-                    <TextInput label={nameLabel} search={search} onSearch={setSearch}/>
+                    <TextInput label={nameLabel} search={searchName} onSearch={setSearch}/>
                     <MultiselectDropdown options={categoryOptions} label={categoryLabel} selectedOptions = {categorySelectedOptions} setSelectedOptions = {categorySetSelectedOptions}/>
                     <MultiselectDropdown options={stockOptions} label={stockLabel} selectedOptions = {stockSelectedOptions} setSelectedOptions = {stockSetSelectedOptions}/>
                     <Button label={"Search"} onClick={handleSearch}></Button>

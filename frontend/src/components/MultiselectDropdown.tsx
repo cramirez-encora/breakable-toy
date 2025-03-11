@@ -1,12 +1,13 @@
-import { useState } from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 import "../MultiselectDropdown.css";
 import dropdownIcon from "../assets/icons/dropdown-arrow.png"; // Local image
+
 
 interface MultiselectDropdownProps {
     options: string[];
     label: string;
     selectedOptions: string[];
-    setSelectedOptions: (value: string[]) => void;
+    setSelectedOptions:Dispatch<SetStateAction<string[]>>;
 }
 
 function MultiselectDropdown({ options, label, selectedOptions, setSelectedOptions }: MultiselectDropdownProps) {
