@@ -1,18 +1,12 @@
-import MultiselectDropdown from "./MultiselectDropdown.tsx";
-import TextInput from "./TextInput.tsx";
-import Button from "./Button.tsx";
+import MultiselectDropdown from "../MultiselectDropdown/MultiselectDropdown.tsx";
+import TextInput from "../TextInput/TextInput.tsx";
+import Button from "../Button/Button.tsx";
+import { categoryOptions, categoryLabel, stockOptions, stockLabel, nameLabel } from "../../constants/SearchBarConsts.ts";
 import {useState} from "react";
 
 function SearchBar(){
-    const categoryOptions = ['Pets', 'Home', 'Food', 'Cleaning'];
-    const categoryLabel = 'Category: ';
     const [categorySelectedOptions, categorySetSelectedOptions] = useState<string[]>([]);
-
-    const stockOptions = ['In stock', 'Out of stock', 'All']
-    const stockLabel = 'Stock: ';
     const [stockSelectedOptions, stockSetSelectedOptions] = useState<string[]>([]);
-
-    const nameLabel = 'Name: ';
     const[search, setSearch] = useState("");
 
     const handleSearch = () => {

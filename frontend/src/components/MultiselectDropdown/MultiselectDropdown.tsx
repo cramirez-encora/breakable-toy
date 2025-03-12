@@ -1,6 +1,6 @@
 import { useState } from "react";
-import "../MultiselectDropdown.css";
-import dropdownIcon from "../assets/icons/dropdown-arrow.png"; // Local image
+import "./MultiselectDropdown.css";
+import dropdownIcon from "../../assets/icons/dropdown-arrow.png"; // Local image
 
 interface MultiselectDropdownProps {
     options: string[];
