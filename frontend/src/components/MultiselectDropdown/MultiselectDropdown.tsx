@@ -4,7 +4,7 @@ import dropdownIcon from "../assets/icons/dropdown-arrow.png"; // Local image
 
 
 interface MultiselectDropdownProps {
-    options: string[];
+    options: readonly string[];
     label: string;
     selectedOptions: string[];
     setSelectedOptions:Dispatch<SetStateAction<string[]>>;
