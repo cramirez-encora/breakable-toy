@@ -1,6 +1,6 @@
 import DataTable, { TableColumn } from "react-data-table-component";
-import { useSearchStore, Product } from "../store/useSearchStore.ts";
-import { mockProducts } from "../mocks/productsTest.ts";
+import { useSearchStore, Product } from "../../store/useSearchStore.ts";
+import { mockProducts } from "../../mocks/productsTest.ts";
 import { useMemo } from "react";
 
 function ResultsTable() {

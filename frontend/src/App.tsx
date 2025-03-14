@@ -1,6 +1,6 @@
 import './App.css'
 import SearchBar from "./components/SearchBar/SearchBar.tsx";
-import ResultsTable from "./components/ResultsTable.tsx";
+import ResultsTable from "./components/ResultsTable/ResultsTable.tsx";
 function App() {
   return (
     <>
