@@ -1,47 +1,59 @@
 import DataTable, { TableColumn } from "react-data-table-component";
 import { useSearchStore, Product } from "../../store/useSearchStore.ts";
-import { mockProducts } from "../../mocks/productsTest.ts";
-import { useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 function ResultsTable() {
     const { filters } = useSearchStore();
-    const productList = mockProducts; // Using mock data for testing
+    const [productList, setProductList] = useState<Product[]>([]);
 
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const queryParams = new URLSearchParams();
+                if (filters.searchTerm.trim()) queryParams.append("name", filters.searchTerm);
+                if (filters.categories.length > 0) queryParams.append("category", filters.categories.join(","));
+                if (filters.stock.length > 0 && !filters.stock.includes("All")) {
+                    queryParams.append("stock", filters.stock.join(","));
+                }
 
-    const filteredResults = productList.filter((item) => {
-        const stockCondition =
-            filters.stock.includes("All") ||
-            (filters.stock.includes("In stock") && (item.quantityStock > 0)) ||
-            (filters.stock.includes("Out of stock") && (item.quantityStock === 0));
+                const response = await fetch(`http://localhost:9090/products?${queryParams.toString()}`);
 
-        const categoryCondition =
-            filters.categories.length === 0 ||
-            item.category.some((cat) => filters.categories.includes(cat));
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
 
-        const nameCondition =
-            filters.searchTerm.trim() === "" ||
-            item.name.toLowerCase().includes(filters.searchTerm.toLowerCase());
-        return stockCondition && categoryCondition && nameCondition;
-    });
+                const data = await response.json();
+                setProductList(data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        fetchProducts();
+    }, [filters]);
 
 
     const columns: TableColumn<Product>[] = useMemo(
         () => [
-            { name: "Category",
-                selector: (row) => row.category.join(", "),
+            {
+                name: "Category",
+                selector: (row) => Array.isArray(row.category) ? row.category.join(", ") : String(row.category),
                 sortable: true
             },
-            { name: "Name",
+            {
+                name: "Name",
                 selector: (row) => row.name,
                 sortable: true
             },
-            { name: "Price",
+            {
+                name: "Price",
                 selector: (row) => row.unitPrice,
-                format: (row) => `$${row.unitPrice.toFixed(2)}`,
+                format: (row) => `$${row.unitPrice}`,
                 sortable: true,
                 sortFunction: (a, b) => a.unitPrice - b.unitPrice,
             },
-            { name: "Expiration Date",
+            {
+                name: "Expiration Date",
                 selector: (row) => row.expDate,
                 sortable: true
             },
@@ -59,9 +71,7 @@ function ResultsTable() {
                         <button onClick={() => handleDelete(row.id)}> Delete</button>
                     </div>
                 ),
-                ignoreRowClick: true,
-                allowOverflow: true,
-                button: true,
+                ignoreRowClick: true
             },
         ],
         []
@@ -80,7 +90,7 @@ function ResultsTable() {
             <h2>Results</h2>
             <DataTable
                 columns={columns}
-                data={filteredResults}
+                data={productList}
                 pagination
                 selectableRows
                 highlightOnHover
