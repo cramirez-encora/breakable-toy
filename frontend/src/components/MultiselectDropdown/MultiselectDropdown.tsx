@@ -13,8 +13,6 @@ function MultiselectDropdown({ options, label, selectedOptions, setSelectedOptio
     const [isOpen, setIsOpen] = useState(false);
     const [categories, setCategories] = useState<string[]>([]);
 
-    console.log("Received label:", label, "with options:", options);
-
     useEffect(() => {
         setCategories(options);
     }, [options]);

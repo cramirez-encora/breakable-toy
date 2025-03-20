@@ -38,7 +38,7 @@ function SearchBar() {
         <div className="container">
             <h2>Search Bar</h2>
             <div className="container-searchControls">
-                <TextInput label={nameLabel} search={search} onSearch={setSearch} />
+                <TextInput label={nameLabel} search={search} placeholder={"Write the product name..."} onSearch={setSearch} />
                 <MultiselectDropdown
                     options={categoryOptions}
                     label={categoryLabel}
