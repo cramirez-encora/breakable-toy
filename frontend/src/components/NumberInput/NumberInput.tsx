@@ -16,7 +16,7 @@ function NumberInput({ label, search, placeholder, onSearch }: NumberInputProps)
     };
 
     return (
-        <>
+        <div className={"form-input-container"}>
             <label className="label-input">
                 {label}
             </label>
@@ -27,7 +27,7 @@ function NumberInput({ label, search, placeholder, onSearch }: NumberInputProps)
                 value={search}
                 onChange={handleInputChange}
             />
-        </>
+        </div>
     );
 }
 

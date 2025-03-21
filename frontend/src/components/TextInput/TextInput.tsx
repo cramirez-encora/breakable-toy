@@ -12,7 +12,7 @@ function TextInput({ label, search, placeholder, onSearch }: TextInputProps) {
         onSearch(event.target.value);
     };
     return (
-        <>
+        <div className={"form-input-container"}>
             <label className={"label-input"}>
                 {label}
             </label>
@@ -22,7 +22,7 @@ function TextInput({ label, search, placeholder, onSearch }: TextInputProps) {
                 value={search}
                 onChange={handleInputChange}
             />
-        </>
+        </div>
     );
 }
 

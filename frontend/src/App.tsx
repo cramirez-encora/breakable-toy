@@ -18,8 +18,8 @@ function App() {
     <>
         <h1>APP Breakable Toy</h1>
         <SearchBar/>
-        <div className="app-container">
-            <button onClick={() => setIsModalOpen(true)} className="open-modal-button">
+        <div className="app-container" >
+            <button onClick={() => setIsModalOpen(true)} className="open-modal-button"  >
                 New Product
             </button>
 

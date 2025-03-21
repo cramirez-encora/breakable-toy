@@ -52,7 +52,7 @@ function Dropdown({ options, label, selectedOption, setSelectedOption, allowNewC
     };
 
     return (
-        <div className="dropdown-container">
+        <div className="dropdown-container form-input-container">
             <div className="dropdown-input-container">
                 <label className="label-input">{label}</label>
                 <input

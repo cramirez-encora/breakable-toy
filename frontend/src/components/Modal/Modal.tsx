@@ -3,6 +3,7 @@ import "./Modal.css";
 import Dropdown from "../Dropdown/Dropdown.tsx";
 import TextInput from "../TextInput/TextInput.tsx";
 import NumberInput from "../NumberInput/NumberInput.tsx";
+import "./FormStyles.css"
 import { nameLabel, categoryLabel, stockLabel, unitPriceLabel, expDateLabel } from "../../constants/ModalConsts.ts";
 
 interface Product {
@@ -102,9 +103,10 @@ function Modal({ isOpen, onClose, refreshProducts, product }: ModalProps) {
                     <Dropdown options={categoryOptions} label={categoryLabel} selectedOption={categorySelectedOption} setSelectedOption={setCategorySelectedOption} allowNewCategory={true} />
                     <NumberInput label={stockLabel} search={stock} placeholder="Integers only" onSearch={setStock} />
                     <NumberInput label={unitPriceLabel} search={unitPrice} placeholder="Enter price" onSearch={setUnitPrice} />
-
-                    <label className="modal-label">{expDateLabel}</label>
-                    <input type="date" value={expDate} onChange={(e) => setExpDate(e.target.value)} className="modal-input" />
+                    <div className={"form-input-container"}>
+                        <label className="label-input">{expDateLabel}</label>
+                        <input type="date" className="date-input" value={expDate} onChange={(e) => setExpDate(e.target.value)}  />
+                    </div>
 
                     <button type="submit" className="modal-submit-button">{product ? "Update" : "Register"}</button>
                 </form>

@@ -25,8 +25,8 @@ function MultiselectDropdown({ options, label, selectedOptions, setSelectedOptio
 
 
     return (
-        <div className="dropdown-container">
-            <div className="dropdown-input-container">
+        <div className="dropdown-container " >
+            <div className="dropdown-input-container form-input-container">
                 <label className="label-input">{label}</label>
                 <input
                     type="text"
