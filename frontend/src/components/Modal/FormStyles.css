@@ -1,0 +1,67 @@
+.form-input-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+
+.label-input {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    min-width: 120px;
+    text-align: right;
+}
+
+.date-input{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.text-input,
+.number-input,
+.date-input,
+.dropdown-input {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #364C84;
+    font-size: 14px;
+}
+
+.dropdown-container {
+    width: 80%;
+    position: relative;
+}
+
+
+.dropdown-input-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.date-input {
+    width: 100%;
+    cursor: pointer;
+}
+
+.dropdown-button {
+    background-color: #364C84;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 5px;
+    height: 32px;
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+
