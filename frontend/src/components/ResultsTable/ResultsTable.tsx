@@ -1,18 +1,29 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
-import { useSearchStore, Product } from "../../store/useSearchStore.ts";
+import { useSearchStore } from "../../store/useSearchStore.ts";
 import Modal from "../Modal/Modal.tsx";
+import { useProductStore } from "../../store/useProductStore.ts";
 
-//Crear interface
+// Unified local Product interface
+interface Product {
+    id: number;
+    name: string;
+    category: string;
+    quantityStock: number;
+    unitPrice: number;
+    expDate: string;
+}
 
-function ResultsTable({ refreshTrigger, setRefreshTrigger }: { refreshTrigger: boolean , setRefreshTrigger: ()=> void}) {
+function ResultsTable() {
     const { filters } = useSearchStore();
     const [productList, setProductList] = useState<Product[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [selectedRows, setSelectedRows] = useState<Record<number, boolean>>({});
+    const refreshToken = useProductStore((s) => s.refreshToken);
+    const triggerRefresh = useProductStore((s) => s.triggerRefresh);
 
-    const fetchProducts = async () => {
+    const fetchProducts = useCallback(async () => {
         try {
             const queryParams = new URLSearchParams();
             if (filters.searchTerm.trim()) queryParams.append("name", filters.searchTerm);
@@ -24,7 +35,8 @@ function ResultsTable({ refreshTrigger, setRefreshTrigger }: { refreshTrigger: b
             const response = await fetch(`http://localhost:9090/products?${queryParams.toString()}`);
 
             if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                console.error(`HTTP error! Status: ${response.status}`);
+                return;
             }
 
             const data = await response.json();
@@ -32,16 +44,16 @@ function ResultsTable({ refreshTrigger, setRefreshTrigger }: { refreshTrigger: b
         } catch (error) {
             console.error("Error fetching products:", error);
         }
-    };
+    }, [filters]);
 
     useEffect(() => {
-        void fetchProducts();
-    }, [filters, refreshTrigger]);
+        fetchProducts().catch(console.error);
+    }, [fetchProducts, refreshToken]);
 
-    const handleUpdate = async () =>{
+    const handleUpdate = async () => {
         await fetchProducts();
-        setRefreshTrigger();
-    }
+        triggerRefresh();
+    };
 
     const handleSelectedRowsChange = async (selected: { selectedRows: Product[] }) => {
         const newSelectedRows: Record<number, boolean> = {};
@@ -67,7 +79,7 @@ function ResultsTable({ refreshTrigger, setRefreshTrigger }: { refreshTrigger: b
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Failed to update stock for product ${product.id}`);
+                    console.error(`Failed to update stock for product ${product.id}`);
                 }
             } catch (error) {
                 console.error(error);
@@ -75,8 +87,7 @@ function ResultsTable({ refreshTrigger, setRefreshTrigger }: { refreshTrigger: b
         }
 
         setSelectedRows(newSelectedRows);
-        console.log("There was a selection")
-        setRefreshTrigger();
+        triggerRefresh();
     };
 
     const handleEdit = (product: Product) => {
@@ -87,10 +98,10 @@ function ResultsTable({ refreshTrigger, setRefreshTrigger }: { refreshTrigger: b
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setSelectedProduct(null);
-        fetchProducts();
+        fetchProducts().catch(console.error);
     };
 
-    const handleDelete = async (id: number) => {
+    const handleDelete = useCallback(async (id: number) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this product?");
         if (!confirmDelete) return;
 
@@ -100,16 +111,19 @@ function ResultsTable({ refreshTrigger, setRefreshTrigger }: { refreshTrigger: b
             });
 
             if (!response.ok) {
-                throw new Error("Failed to delete product");
+                console.error("Failed to delete product");
+                alert("Error: Unable to delete product.");
+                return;
             }
 
             alert("Product deleted successfully!");
-            fetchProducts();
+            fetchProducts().catch(console.error);
+            triggerRefresh();
         } catch (error) {
             console.error("Error deleting product:", error);
             alert("Error: Unable to delete product.");
         }
-    };
+    }, [fetchProducts]);
 
     const getRowStyle = (expDate: string | null) => {
         if (!expDate) return "transparent";
@@ -135,8 +149,9 @@ function ResultsTable({ refreshTrigger, setRefreshTrigger }: { refreshTrigger: b
         () => [
             {
                 name: "Category",
-                selector: (row) => Array.isArray(row.category) ? row.category.join(", ") : String(row.category),
-                sortable: true
+                selector: (row) =>
+                    Array.isArray(row.category) ? row.category.join(", ") : String(row.category),
+                sortable: true,
             },
             {
                 name: "Name",
@@ -144,8 +159,8 @@ function ResultsTable({ refreshTrigger, setRefreshTrigger }: { refreshTrigger: b
                 sortable: true,
                 cell: (row) => (
                     <span style={{ textDecoration: row.quantityStock === 0 ? "line-through" : "none" }}>
-                        {row.name}
-                    </span>
+            {row.name}
+          </span>
                 ),
             },
             {
@@ -158,7 +173,7 @@ function ResultsTable({ refreshTrigger, setRefreshTrigger }: { refreshTrigger: b
             {
                 name: "Expiration Date",
                 selector: (row) => row.expDate,
-                sortable: true
+                sortable: true,
             },
             {
                 name: "Stock",
@@ -167,22 +182,22 @@ function ResultsTable({ refreshTrigger, setRefreshTrigger }: { refreshTrigger: b
                 format: (row) => row.quantityStock,
                 cell: (row) => (
                     <span style={{ color: getStockColor(row.quantityStock), fontWeight: "bold" }}>
-                        {row.quantityStock}
-                    </span>
+            {row.quantityStock}
+          </span>
                 ),
             },
             {
                 name: "Actions",
                 cell: (row) => (
                     <div>
-                        <button onClick={() => handleEdit(row)}> Edit</button>
-                        <button onClick={() => handleDelete(row.id)}> Delete</button>
+                        <button onClick={() => handleEdit(row)}>Edit</button>
+                        <button onClick={() => handleDelete(row.id)}>Delete</button>
                     </div>
                 ),
-                ignoreRowClick: true
+                ignoreRowClick: true,
             },
         ],
-        []
+        [handleDelete]
     );
 
     return (
@@ -198,8 +213,8 @@ function ResultsTable({ refreshTrigger, setRefreshTrigger }: { refreshTrigger: b
                 onSelectedRowsChange={handleSelectedRowsChange}
                 conditionalRowStyles={[
                     {
-                        when: row => true,
-                        style: row => ({
+                        when: () => true,
+                        style: (row) => ({
                             backgroundColor: getRowStyle(row.expDate),
                         }),
                     },

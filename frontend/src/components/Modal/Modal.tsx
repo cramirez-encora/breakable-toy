@@ -19,19 +19,17 @@ interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     refreshProducts: () => void;
-    product?: Product;
+    product?: Product | null;
 }
 
 function Modal({ isOpen, onClose, refreshProducts, product }: ModalProps) {
-    if (!isOpen) return null;
-
     const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
+
     const [categorySelectedOption, setCategorySelectedOption] = useState(product?.category || "");
     const [name, setName] = useState(product?.name || "");
     const [stock, setStock] = useState<number | "">(product?.quantityStock || "");
     const [unitPrice, setUnitPrice] = useState<number | "">(product?.unitPrice || "");
     const [expDate, setExpDate] = useState<string>(product?.expDate || "");
-
     useEffect(() => {
         const fetchCategories = async () => {
             try {
@@ -45,6 +43,8 @@ function Modal({ isOpen, onClose, refreshProducts, product }: ModalProps) {
 
         fetchCategories();
     }, []);
+
+    if (!isOpen) return null;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -82,6 +82,7 @@ function Modal({ isOpen, onClose, refreshProducts, product }: ModalProps) {
             if (response.ok) {
                 alert(`Product ${product ? "updated" : "added"} successfully!`);
                 refreshProducts();
+                window.location.reload();
                 setTimeout(() => {
                     onClose();
                 }, 100);
@@ -89,6 +90,7 @@ function Modal({ isOpen, onClose, refreshProducts, product }: ModalProps) {
                 alert("Failed to save product.");
             }
         } catch (error) {
+            console.error("Error saving product:", error);
             alert("Error: Unable to connect to server.");
         }
     };

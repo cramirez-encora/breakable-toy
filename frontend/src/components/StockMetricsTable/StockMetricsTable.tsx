@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./StockMetricsTable.css";
+import { useProductStore } from "../../store/useProductStore";
 
 interface StockMetrics {
     totalStock: number;
@@ -7,23 +8,17 @@ interface StockMetrics {
     averagePrice: number;
 }
 
-interface StockMetricsTableProps {
-    refreshTrigger: boolean;
-}
-
-function StockMetricsTable({ refreshTrigger }: StockMetricsTableProps) {
+function StockMetricsTable() {
     const [metrics, setMetrics] = useState<{ [category: string]: StockMetrics }>({});
+    const refreshToken = useProductStore((s) => s.refreshToken);
 
     useEffect(() => {
-        console.log("Fetching updated stock metrics...");
-
         const fetchMetrics = async () => {
             try {
                 const response = await fetch(`http://localhost:9090/products/metrics?timestamp=${Date.now()}`);
                 if (!response.ok) throw new Error("Failed to fetch metrics");
 
                 const data = await response.json();
-                console.log("Updated stock metrics:", data);
                 setMetrics(data);
             } catch (error) {
                 console.error("Error fetching stock metrics:", error);
@@ -31,7 +26,8 @@ function StockMetricsTable({ refreshTrigger }: StockMetricsTableProps) {
         };
 
         fetchMetrics();
-    }, [refreshTrigger]);
+    }, [refreshToken]);
+
 
     const totalMetrics = metrics["TOTAL"];
     const categories = Object.keys(metrics).filter(category => category !== "TOTAL");
