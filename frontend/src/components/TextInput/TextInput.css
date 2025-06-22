@@ -1,17 +1,14 @@
-.text-input {
-    width: 200px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    color: #364C84;
-}
-.form-input-container{
-    width: 300px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin: 2px;
-    padding: 5px;
-}
+/*.text-input {*/
+/*    width: 100%;*/
+/*    padding: 0.5rem;*/
+/*    border: var(--border);*/
+/*    border-radius: var(--radius);*/
+/*    background-color: var(--color-primary);*/
+/*    color: var(--color-dark);*/
+/*}*/
+
+/*.form-input-container {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    margin: 8px 0;*/
+/*}*/

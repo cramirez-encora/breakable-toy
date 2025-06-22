@@ -3,7 +3,8 @@ import "./Modal.css";
 import Dropdown from "../Dropdown/Dropdown.tsx";
 import TextInput from "../TextInput/TextInput.tsx";
 import NumberInput from "../NumberInput/NumberInput.tsx";
-import "./FormStyles.css"
+//import "./FormStyles.css"
+import "../../styles/FormControls.css"
 import { nameLabel, categoryLabel, stockLabel, unitPriceLabel, expDateLabel } from "../../constants/ModalConsts.ts";
 
 interface Product {
@@ -109,8 +110,7 @@ function Modal({ isOpen, onClose, refreshProducts, product }: ModalProps) {
                         <label className="label-input">{expDateLabel}</label>
                         <input type="date" className="date-input" value={expDate} onChange={(e) => setExpDate(e.target.value)}  />
                     </div>
-
-                    <button type="submit" className="modal-submit-button">{product ? "Update" : "Register"}</button>
+                    <button type="submit" className="modal-submit-button button">{product ? "Update" : "Register"}</button>
                 </form>
             </div>
         </div>

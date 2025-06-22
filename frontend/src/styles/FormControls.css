@@ -1,0 +1,31 @@
+.form-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    margin: var(--spacing-md) 0;
+}
+
+.label-input,
+.label-dropdown{
+    font-weight: bold;
+    color: var(--color-primary);
+    min-width: 130px;
+    text-align: center;
+}
+
+/* Applies to all standard input fields */
+.text-input,
+.number-input,
+.date-input{
+    flex: 1;
+    padding: var(--input-padding);
+    width: 80%;
+    height: var(--input-height);
+    font-size: var(--font-size);
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    border: var(--border);
+    border-radius: var(--radius);
+}

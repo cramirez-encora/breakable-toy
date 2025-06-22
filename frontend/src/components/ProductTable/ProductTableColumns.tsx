@@ -51,9 +51,9 @@ export const getProductTableColumns = (
     {
         name: "Actions",
         cell: (row) => (
-            <div>
-                <button onClick={() => onEdit(row)}>Edit</button>
-                <button onClick={() => onDelete(row.id)}>Delete</button>
+            <div className="action-buttons">
+                <button className={"button"} onClick={() => onEdit(row)}>Edit</button>
+                <button className={"button"} onClick={() => onDelete(row.id)}>Delete</button>
             </div>
         ),
         ignoreRowClick: true,

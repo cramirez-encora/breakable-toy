@@ -8,7 +8,7 @@ interface ButtonProps {
 
 function Button({ label, onClick, type = "submit" }: ButtonProps) {
     return (
-        <button onClick={onClick} type={type}>
+        <button className={"button"} onClick={onClick} type={type}>
             {label}
         </button>
     );

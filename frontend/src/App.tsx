@@ -1,4 +1,5 @@
 import './App.css';
+import './styles/FormControls.css'
 import SearchBar from "./components/SearchBar/SearchBar";
 import ResultsTable from "./components/ResultsTable/ResultsTable";
 import Modal from "./components/Modal/Modal";
@@ -13,15 +14,25 @@ function App() {
     return (
         <>
             <h1>APP Breakable Toy</h1>
-            <SearchBar />
-            <div className="app-container">
-                <button onClick={() => setIsModalOpen(true)} className="open-modal-button">
+
+            <div className="section-spacing">
+                <SearchBar />
+            </div>
+
+            <div className="app-container section-spacing">
+                <button onClick={() => setIsModalOpen(true)} className="open-modal-button button">
                     New Product
                 </button>
                 <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} refreshProducts={triggerRefresh} />
             </div>
-            <ResultsTable />
-            <StockMetricsTable />
+
+            <div className="section-spacing">
+                <ResultsTable />
+            </div>
+
+            <div className="section-spacing">
+                <StockMetricsTable />
+            </div>
         </>
     );
 }

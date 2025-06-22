@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import DataTable from "react-data-table-component";
 import Modal from "../Modal/Modal";
+import './ResultsTable.css';
 import { useProductStore } from "../../store/useProductStore";
 import { Product } from "../../types/Product";
 import { useFetchProducts } from "../../hooks/useFetchProducts";

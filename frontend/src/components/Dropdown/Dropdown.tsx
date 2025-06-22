@@ -53,8 +53,8 @@ function Dropdown({ options, label, selectedOption, setSelectedOption, allowNewC
 
     return (
         <div className="dropdown-container form-input-container">
+            <label className="label-dropdown">{label}</label>
             <div className="dropdown-input-container">
-                <label className="label-input">{label}</label>
                 <input
                     type="text"
                     value={selectedOption || ""}
@@ -62,8 +62,8 @@ function Dropdown({ options, label, selectedOption, setSelectedOption, allowNewC
                     disabled
                     className="dropdown-input"
                 />
-                <button type={"button"} className="dropdown-button" onClick={() => setIsOpen(!isOpen)}>
-                    <img src={dropdownIcon} alt="Open Dropdown" className="dropdown-icon" />
+                <button type={"button"} className={`dropdown-button ${isOpen ? "open" : ""}`} onClick={() => setIsOpen(!isOpen)}>
+                    <img src={dropdownIcon} alt="Open Dropdown" className={`dropdown-icon ${isOpen ? "open" : ""}`} />
                 </button>
             </div>
 
@@ -87,12 +87,13 @@ function Dropdown({ options, label, selectedOption, setSelectedOption, allowNewC
                     {allowNewCategory && (
                         <div className="dropdown-new-category">
                             <input
+                                className={"text-input"}
                                 type="text"
                                 placeholder="New category..."
                                 value={newCategory}
                                 onChange={(e) => setNewCategory(e.target.value)}
                             />
-                            <button type={"button"} onClick={handleAddCategory}>Add</button>
+                            <button className={"button"} type={"button"} onClick={handleAddCategory}>Add</button>
                         </div>
                     )}
                 </div>

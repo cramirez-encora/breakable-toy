@@ -1,32 +1,21 @@
+@import './styles/variables.css';
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #FFFDF5;
-  color: #364C84;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.container{
-  display: flex;
-  justify-self: center;
-  flex-direction: column;
-  align-items: start;
-
-  width: 90%;
-  height: fit-content;
-  padding: 20px;
-  background-color: #95B1EE;
-  color: #FFFDF5;
-  border: #364C84 1px solid;
-  border-radius: 15px;
-  margin: 10px;
+  font-family: var(--font-base);
+  font-size: var(--font-size-base);
+  background-color: var(--color-light);
+  color: var(--color-dark);
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+.container {
+  padding: 2rem;
+  background-color: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
