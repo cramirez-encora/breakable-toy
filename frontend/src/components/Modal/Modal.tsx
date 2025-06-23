@@ -3,7 +3,6 @@ import "./Modal.css";
 import Dropdown from "../Dropdown/Dropdown.tsx";
 import TextInput from "../TextInput/TextInput.tsx";
 import NumberInput from "../NumberInput/NumberInput.tsx";
-//import "./FormStyles.css"
 import "../../styles/FormControls.css"
 import { nameLabel, categoryLabel, stockLabel, unitPriceLabel, expDateLabel } from "../../constants/ModalConsts.ts";
 
@@ -55,6 +54,13 @@ function Modal({ isOpen, onClose, refreshProducts, product }: ModalProps) {
             return;
         }
 
+        const today = new Date().toISOString().split("T")[0];
+
+        if (expDate < today) {
+            alert("Expiration date cannot be earlier than today.");
+            return;
+        }
+
         const newProduct = {
             name,
             category: categorySelectedOption,
@@ -72,7 +78,6 @@ function Modal({ isOpen, onClose, refreshProducts, product }: ModalProps) {
                     body: JSON.stringify(newProduct),
                 });
             } else {
-                // Add new product
                 response = await fetch("http://localhost:9090/products", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -108,7 +113,13 @@ function Modal({ isOpen, onClose, refreshProducts, product }: ModalProps) {
                     <NumberInput label={unitPriceLabel} search={unitPrice} placeholder="Enter price" onSearch={setUnitPrice} />
                     <div className={"form-input-container"}>
                         <label className="label-input">{expDateLabel}</label>
-                        <input type="date" className="date-input" value={expDate} onChange={(e) => setExpDate(e.target.value)}  />
+                        <input
+                            type="date"
+                            className="date-input"
+                            value={expDate}
+                            onChange={(e) => setExpDate(e.target.value)}
+                            min={new Date().toISOString().split("T")[0]} // today
+                        />
                     </div>
                     <button type="submit" className="modal-submit-button button">{product ? "Update" : "Register"}</button>
                 </form>

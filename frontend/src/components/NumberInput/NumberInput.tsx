@@ -25,6 +25,8 @@ function NumberInput({ label, search, placeholder, onSearch }: NumberInputProps)
                 type="number"
                 placeholder={placeholder}
                 value={search}
+                min={0}
+                step="1"
                 onChange={handleInputChange}
             />
         </div>
